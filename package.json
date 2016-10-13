@@ -1,7 +1,7 @@
 {
-  "name": "bootstrap-daterangepicker",
+  "name": "semantic-ui-daterangepicker",
   "version": "2.1.24",
-  "description": "Date range picker component for Bootstrap",
+  "description": "Date range picker component for Semantic UI",
   "main": "daterangepicker.js",
   "style": "daterangepicker.css",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dangrossman/bootstrap-daterangepicker.git"
+    "url": "https://github.com/OFFLINE-GmbH/semantic-ui-daterangepicker"
   },
   "author": {
     "name": "Dan Grossman",
