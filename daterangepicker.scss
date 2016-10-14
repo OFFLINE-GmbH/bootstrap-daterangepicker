@@ -68,7 +68,7 @@ $daterangepicker-cell-size:           20px !default;
 $daterangepicker-cell-width:          $daterangepicker-cell-size !default;
 $daterangepicker-cell-height:         $daterangepicker-cell-size !default;
 
-$daterangepicker-cell-border-radius:  $daterangepicker-calendar-border-radius !default;
+$daterangepicker-cell-border-radius:  0 !default;
 $daterangepicker-cell-border-size:    1px !default;
 
 //
@@ -118,9 +118,19 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   color: $daterangepicker-color;
   background: $daterangepicker-bg-color;
   border-radius: $daterangepicker-border-radius;
-  width: $daterangepicker-width;
   padding: $daterangepicker-padding;
   margin-top: $daterangepicker-border-size;
+  display: flex;
+  flex-direction: row;
+
+  > div {
+    flex: 1;
+  }
+
+  &.ui.menu.horizontal {
+    width: auto;
+    display: none;
+  }
 
   // TODO: Should these be parameterized??
   top: 100px;
@@ -131,7 +141,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
   &:before, &:after {
     position: absolute;
-    display: inline-block;
+    display: none;
 
     border-bottom-color: rgba(0, 0, 0, 0.2);
     content: '';
@@ -142,7 +152,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
     border-right: $arrow-prefix-size solid transparent;
     border-left: $arrow-prefix-size solid transparent;
-    border-bottom: $arrow-prefix-size solid $daterangepicker-border-color;
+    border-bottom: $arrow-prefix-size solid $daterangepicker-bg-color;
   }
 
   &:after {
@@ -232,8 +242,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     }
   }
 
-  .calendar {
-    display: none;
+  .calendar:not(.icon) {
     max-width: $daterangepicker-width - ($daterangepicker-calendar-margin * 2);
     margin: $daterangepicker-calendar-margin;
 
@@ -254,9 +263,14 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
   .calendar-table {
     border: $daterangepicker-calendar-border-size solid $daterangepicker-calendar-border-color;
-    padding: $daterangepicker-calendar-margin;
+    padding: 0;
     border-radius: $daterangepicker-calendar-border-radius;
     background: $daterangepicker-calendar-bg-color;
+
+    .ui.very.compact.table th {
+      padding-top: .6em;
+      padding-bottom: .6em;
+    }
   }
 
   table {
@@ -372,48 +386,44 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   //
   // Text Input Controls (above calendar)
   //
-  .input-mini {
-    border: $daterangepicker-control-border-size solid $daterangepicker-control-border-color;
-    border-radius: $daterangepicker-control-border-radius;
-    color: $daterangepicker-control-color;
-    height: $daterangepicker-control-line-height;
-    line-height: $daterangepicker-control-height;
+  .ui.mini.input {
     display: block;
     vertical-align: middle;
 
-    // TODO: Should these all be static, too??
-    margin: 0 0 5px 0;
-    padding: 0 6px 0 28px;
     width: 100%;
-
-    &.active {
-      border: $daterangepicker-control-active-border-size solid $daterangepicker-control-active-border-color;
-      border-radius: $daterangepicker-control-active-border-radius;
+    input {
+      width: 100%;
     }
   }
 
   .daterangepicker_input {
     position: relative;
-
-    i {
-      position: absolute;
-
-      // NOTE: These appear to be eyeballed to me...
-      left: 8px;
-      top: 8px;
-    }
   }
   &.rtl {
-    .input-mini {
+    .ui.mini.input {
       padding-right: 28px;
       padding-left: 6px;
     }
-    .daterangepicker_input i {
-      left: auto;
-      right: 8px;
-    }
   }
 
+  .calendar-date {
+    display: flex;
+
+    // The calendar icon class unfortunately gets
+    // overwritten by the .calendar reules
+    > .icon {
+      width: 30px;
+      margin: 0 .25rem 0 0 !important;
+      float: none !important;
+      display: inline-block;
+      padding-top: 5px;
+    }
+
+    > div {
+      display: flex;
+      flex: 1;
+    }
+  }
   //
   // Time Picker
   //
@@ -422,7 +432,25 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     margin: 5px auto;
     line-height: $daterangepicker-control-line-height;
     position: relative;
-    padding-left: 28px;
+    display: flex;
+    padding-right: 0;
+
+    > .icon {
+      width: 30px;
+    }
+
+    > div {
+      display: flex;
+      flex: 1;
+      > .ui.dropdown {
+        flex: 1;
+        font-size: .8em;
+        margin-right: 12px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
 
     select {
       &.disabled {
@@ -439,9 +467,11 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
 .ranges {
   font-size: 11px;
-  float: none;
   margin: 4px;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   ul {
     list-style: none;
@@ -481,7 +511,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
     .ranges {
       ul {
-        width: 160px;
+        width: 100%;
       }
     }
 
@@ -496,16 +526,6 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
         clear: none;
       }
 
-      &.ltr {
-        .ranges, .calendar {
-          float:left;
-        }
-      }
-      &.rtl {
-        .ranges, .calendar {
-          float:right;
-        }
-      }
     }
 
     &.ltr {
@@ -514,7 +534,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
       .calendar{
         &.left {
           clear: left;
-          margin-right: 0;
+          margin-right: 10px;
 
           .calendar-table {
             border-right: none;
@@ -535,16 +555,13 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
       }
 
       .left .daterangepicker_input {
-        padding-right: 12px;
+        padding-right: 0;
       }
 
       .calendar.left .calendar-table {
-        padding-right: 12px;
+        padding-right: 0;
       }
 
-      .ranges, .calendar {
-        float: left;
-      }
     }
     &.rtl {
       direction: rtl;
@@ -582,7 +599,6 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
       .ranges, .calendar {
         text-align: right;
-        float: right;
       }
     }
   }
@@ -592,16 +608,6 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   .#{$prefix-class} {
     .ranges {
       width: auto;
-    }
-    &.ltr {
-      .ranges {
-        float: left;
-      }
-    }
-    &.rtl {
-      .ranges {
-        float: right;
-      }
     }
 
     .calendar.left {
