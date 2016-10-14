@@ -416,9 +416,9 @@
             .on('mousedown.daterangepicker', 'td.available', $.proxy(this.clickDate, this))
             .on('mouseenter.daterangepicker', 'td.available', $.proxy(this.hoverDate, this))
             .on('mouseleave.daterangepicker', 'td.available', $.proxy(this.updateFormInputs, this))
-            .on('change.daterangepicker', 'select.yearselect', $.proxy(this.monthOrYearChanged, this))
-            .on('change.daterangepicker', 'select.monthselect', $.proxy(this.monthOrYearChanged, this))
-            .on('change.daterangepicker', 'select.hourselect,select.minuteselect,select.secondselect,select.ampmselect', $.proxy(this.timeChanged, this))
+            .on('change.daterangepicker', '.yearselect select', $.proxy(this.monthOrYearChanged, this))
+            .on('change.daterangepicker', '.monthselect select', $.proxy(this.monthOrYearChanged, this))
+            .on('change.daterangepicker', '.hourselect select,.minuteselect select,.secondselect select,.ampmselect select', $.proxy(this.timeChanged, this))
             .on('click.daterangepicker', '.daterangepicker_input input', $.proxy(this.showCalendars, this))
             .on('focus.daterangepicker', '.daterangepicker_input input', $.proxy(this.formInputsFocused, this))
             .on('blur.daterangepicker', '.daterangepicker_input input', $.proxy(this.formInputsBlurred, this))
@@ -868,7 +868,8 @@
             // because an end date hasn't been clicked yet
             if (side == 'right' && !this.endDate) return;
 
-            var html, selected, minDate, maxDate = this.maxDate;
+ 
+           var html, selected, minDate, maxDate = this.maxDate;
 
             if (this.dateLimit && (!this.maxDate || this.startDate.clone().add(this.dateLimit).isAfter(this.maxDate)))
                 maxDate = this.startDate.clone().add(this.dateLimit);
@@ -970,7 +971,7 @@
             //
 
             if (this.timePickerSeconds) {
-                html += ': <select class="ui compact dropdown secondselect">';
+                html += '<select class="ui compact dropdown secondselect">';
 
                 for (var i = 0; i < 60; i++) {
                     var padded = i < 10 ? '0' + i : i;
@@ -1465,12 +1466,12 @@
             var cal = $(e.target).closest('.calendar'),
                 isLeft = cal.hasClass('left');
 
-            var hour = parseInt(cal.find('.hourselect').val(), 10);
-            var minute = parseInt(cal.find('.minuteselect').val(), 10);
-            var second = this.timePickerSeconds ? parseInt(cal.find('.secondselect').val(), 10) : 0;
+            var hour = parseInt(cal.find('.hourselect select').val(), 10);
+            var minute = parseInt(cal.find('.minuteselect select').val(), 10);
+            var second = this.timePickerSeconds ? parseInt(cal.find('.secondselect select').val(), 10) : 0;
 
             if (!this.timePicker24Hour) {
-                var ampm = cal.find('.ampmselect').val();
+                var ampm = cal.find('.ampmselect select').val();
                 if (ampm === 'PM' && hour < 12)
                     hour += 12;
                 if (ampm === 'AM' && hour === 12)
