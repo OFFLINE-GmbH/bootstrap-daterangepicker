@@ -59,9 +59,9 @@
         if (this.element.hasClass('dropup'))
             this.drops = 'up';
 
-        this.buttonClasses = 'btn btn-sm';
-        this.applyClass = 'btn-success';
-        this.cancelClass = 'btn-default';
+        this.buttonClasses = 'ui small button';
+        this.applyClass = 'primary';
+        this.cancelClass = '';
 
         this.locale = {
             direction: 'ltr',
@@ -93,26 +93,30 @@
 
         //html template for the picker UI
         if (typeof options.template !== 'string' && !(options.template instanceof $))
-            options.template = '<div class="daterangepicker dropdown-menu">' +
+            options.template = '<div class="daterangepicker ui horizontal pointing menu">' +
                 '<div class="calendar left">' +
-                    '<div class="daterangepicker_input">' +
-                      '<input class="input-mini form-control" type="text" name="daterangepicker_start" value="" />' +
-                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
+                    '<div class="calendar-date">' +
+                        '<i class="calendar icon"></i>' +
+                        '<div class="daterangepicker_input ui mini left input">' +
+                          '<input type="text" name="daterangepicker_start" value="" />' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="calendar-time">' +
+                        '<i class="clock icon"></i>' +
                         '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
                     '</div>' +
                     '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="calendar right">' +
-                    '<div class="daterangepicker_input">' +
-                      '<input class="input-mini form-control" type="text" name="daterangepicker_end" value="" />' +
-                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
+                    '<div class="calendar-date">' +
+                        '<i class="calendar icon"></i>' +
+                        '<div class="daterangepicker_input ui mini left input">' +
+                          '<input type="text" name="daterangepicker_end" value="" />' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="calendar-time">' +
+                        '<i class="clock icon"></i>' +
                         '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
                     '</div>' +
                     '<div class="calendar-table"></div>' +
                 '</div>' +
@@ -338,12 +342,12 @@
                 this.ranges[rangeHtml] = [start, end];
             }
 
-            var list = '<ul>';
+            var list = '<ul class="ui secondary vertical menu">';
             for (range in this.ranges) {
-                list += '<li data-range-key="' + range + '">' + range + '</li>';
+                list += '<li class="item" data-range-key="' + range + '">' + range + '</li>';
             }
             if (this.showCustomRangeLabel) {
-                list += '<li data-range-key="' + this.locale.customRangeLabel + '">' + this.locale.customRangeLabel + '</li>';
+                list += '<li class="item" data-range-key="' + this.locale.customRangeLabel + '">' + this.locale.customRangeLabel + '</li>';
             }
             list += '</ul>';
             this.container.find('.ranges').prepend(list);
@@ -583,22 +587,22 @@
             if (this.timePicker) {
                 var hour, minute, second;
                 if (this.endDate) {
-                    hour = parseInt(this.container.find('.left .hourselect').val(), 10);
-                    minute = parseInt(this.container.find('.left .minuteselect').val(), 10);
-                    second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : 0;
+                    hour = parseInt(this.container.find('.left .hourselect select').val(), 10);
+                    minute = parseInt(this.container.find('.left .minuteselect select').val(), 10);
+                    second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect select').val(), 10) : 0;
                     if (!this.timePicker24Hour) {
-                        var ampm = this.container.find('.left .ampmselect').val();
+                        var ampm = this.container.find('.left .ampmselect select').val();
                         if (ampm === 'PM' && hour < 12)
                             hour += 12;
                         if (ampm === 'AM' && hour === 12)
                             hour = 0;
                     }
                 } else {
-                    hour = parseInt(this.container.find('.right .hourselect').val(), 10);
-                    minute = parseInt(this.container.find('.right .minuteselect').val(), 10);
-                    second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : 0;
+                    hour = parseInt(this.container.find('.right .hourselect select').val(), 10);
+                    minute = parseInt(this.container.find('.right .minuteselect select').val(), 10);
+                    second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect select').val(), 10) : 0;
                     if (!this.timePicker24Hour) {
-                        var ampm = this.container.find('.right .ampmselect').val();
+                        var ampm = this.container.find('.right .ampmselect select').val();
                         if (ampm === 'PM' && hour < 12)
                             hour += 12;
                         if (ampm === 'AM' && hour === 12)
@@ -691,9 +695,9 @@
             var minDate = side == 'left' ? this.minDate : this.startDate;
             var maxDate = this.maxDate;
             var selected = side == 'left' ? this.startDate : this.endDate;
-            var arrow = this.locale.direction == 'ltr' ? {left: 'chevron-left', right: 'chevron-right'} : {left: 'chevron-right', right: 'chevron-left'};
+            var arrow = this.locale.direction == 'ltr' ? {left: 'left', right: 'right'} : {left: 'right', right: 'left'};
 
-            var html = '<table class="table-condensed">';
+            var html = '<table class="ui very compact table">';
             html += '<thead>';
             html += '<tr>';
 
@@ -702,7 +706,7 @@
                 html += '<th></th>';
 
             if ((!minDate || minDate.isBefore(calendar.firstDay)) && (!this.linkedCalendars || side == 'left')) {
-                html += '<th class="prev available"><i class="fa fa-' + arrow.left + ' glyphicon glyphicon-' + arrow.left + '"></i></th>';
+                html += '<th class="prev available"><i class="icon angle ' + arrow.left + '"></i></th>';
             } else {
                 html += '<th></th>';
             }
@@ -717,7 +721,7 @@
                 var inMinYear = currentYear == minYear;
                 var inMaxYear = currentYear == maxYear;
 
-                var monthHtml = '<select class="monthselect">';
+                var monthHtml = '<select class="ui compact dropdown monthselect">';
                 for (var m = 0; m < 12; m++) {
                     if ((!inMinYear || m >= minDate.month()) && (!inMaxYear || m <= maxDate.month())) {
                         monthHtml += "<option value='" + m + "'" +
@@ -731,7 +735,7 @@
                 }
                 monthHtml += "</select>";
 
-                var yearHtml = '<select class="yearselect">';
+                var yearHtml = '<select class="ui compact dropdown yearselect">';
                 for (var y = minYear; y <= maxYear; y++) {
                     yearHtml += '<option value="' + y + '"' +
                         (y === currentYear ? ' selected="selected"' : '') +
@@ -744,7 +748,7 @@
 
             html += '<th colspan="5" class="month">' + dateHtml + '</th>';
             if ((!maxDate || maxDate.isAfter(calendar.lastDay)) && (!this.linkedCalendars || side == 'right' || this.singleDatePicker)) {
-                html += '<th class="next available"><i class="fa fa-' + arrow.right + ' glyphicon glyphicon-' + arrow.right + '"></i></th>';
+                html += '<th class="next available"><i class="icon angle ' + arrow.right + '"></i></th>';
             } else {
                 html += '<th></th>';
             }
@@ -851,6 +855,11 @@
 
             this.container.find('.calendar.' + side + ' .calendar-table').html(html);
 
+            //
+            // Init Semantic UI dropdowns
+            //
+            $(this.container.find('.dropdown')).dropdown();
+
         },
 
         renderTimePicker: function(side) {
@@ -901,7 +910,7 @@
             // hours
             //
 
-            html = '<select class="hourselect">';
+            html = '<select class="ui compact dropdown hourselect">';
 
             var start = this.timePicker24Hour ? 0 : 1;
             var end = this.timePicker24Hour ? 23 : 12;
@@ -933,7 +942,7 @@
             // minutes
             //
 
-            html += ': <select class="minuteselect">';
+            html += '<select class="ui compact dropdown minuteselect">';
 
             for (var i = 0; i < 60; i += this.timePickerIncrement) {
                 var padded = i < 10 ? '0' + i : i;
@@ -961,7 +970,7 @@
             //
 
             if (this.timePickerSeconds) {
-                html += ': <select class="secondselect">';
+                html += ': <select class="ui compact dropdown secondselect">';
 
                 for (var i = 0; i < 60; i++) {
                     var padded = i < 10 ? '0' + i : i;
@@ -990,7 +999,7 @@
             //
 
             if (!this.timePicker24Hour) {
-                html += '<select class="ampmselect">';
+                html += '<select class="ui compact dropdown ampmselect">';
 
                 var am_html = '';
                 var pm_html = '';
@@ -1011,6 +1020,11 @@
             }
 
             this.container.find('.calendar.' + side + ' .calendar-time div').html(html);
+
+            //
+            // Init Semantic UI dropdowns
+            //
+            $(this.container.find('.dropdown')).dropdown();
 
         },
 
@@ -1114,7 +1128,7 @@
             this.previousRightTime = this.endDate.clone();
 
             this.updateView();
-            this.container.show();
+            this.container.show().css('display', 'flex');
             this.move();
             this.element.trigger('show.daterangepicker', this);
             this.isShowing = true;
@@ -1310,16 +1324,16 @@
 
             if (this.endDate || date.isBefore(this.startDate, 'day')) { //picking start
                 if (this.timePicker) {
-                    var hour = parseInt(this.container.find('.left .hourselect').val(), 10);
+                    var hour = parseInt(this.container.find('.left .hourselect select').val(), 10);
                     if (!this.timePicker24Hour) {
-                        var ampm = this.container.find('.left .ampmselect').val();
+                        var ampm = this.container.find('.left .ampmselect select').val();
                         if (ampm === 'PM' && hour < 12)
                             hour += 12;
                         if (ampm === 'AM' && hour === 12)
                             hour = 0;
                     }
-                    var minute = parseInt(this.container.find('.left .minuteselect').val(), 10);
-                    var second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : 0;
+                    var minute = parseInt(this.container.find('.left .minuteselect select').val(), 10);
+                    var second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect select').val(), 10) : 0;
                     date = date.clone().hour(hour).minute(minute).second(second);
                 }
                 this.endDate = null;
@@ -1330,16 +1344,16 @@
                 this.setEndDate(this.startDate.clone());
             } else { // picking end
                 if (this.timePicker) {
-                    var hour = parseInt(this.container.find('.right .hourselect').val(), 10);
+                    var hour = parseInt(this.container.find('.right .hourselect select').val(), 10);
                     if (!this.timePicker24Hour) {
-                        var ampm = this.container.find('.right .ampmselect').val();
+                        var ampm = this.container.find('.right .ampmselect select').val();
                         if (ampm === 'PM' && hour < 12)
                             hour += 12;
                         if (ampm === 'AM' && hour === 12)
                             hour = 0;
                     }
-                    var minute = parseInt(this.container.find('.right .minuteselect').val(), 10);
-                    var second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : 0;
+                    var minute = parseInt(this.container.find('.right .minuteselect select').val(), 10);
+                    var second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect select').val(), 10) : 0;
                     date = date.clone().hour(hour).minute(minute).second(second);
                 }
                 this.setEndDate(date.clone());
