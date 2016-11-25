@@ -116,7 +116,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 .#{$prefix-class} {
   position: absolute;
   color: $daterangepicker-color;
-  background: $daterangepicker-bg-color;
+  background-color: $daterangepicker-bg-color;
   border-radius: $daterangepicker-border-radius;
   padding: $daterangepicker-padding;
   margin-top: $daterangepicker-border-size;
@@ -482,7 +482,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
   li {
     font-size: 13px;
-    background: $daterangepicker-ranges-bg-color;
+    background-color: $daterangepicker-ranges-bg-color;
     border: $daterangepicker-ranges-border-size solid $daterangepicker-ranges-border-color;
     border-radius: $daterangepicker-ranges-border-radius;
     color: $daterangepicker-ranges-color;
@@ -491,13 +491,13 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     cursor: pointer;
 
     &:hover {
-      background: $daterangepicker-ranges-hover-bg-color;
+      background-color: $daterangepicker-ranges-hover-bg-color;
       border: $daterangepicker-ranges-hover-border-size solid $daterangepicker-ranges-hover-border-color;
       color: $daterangepicker-ranges-hover-color;
     }
 
     &.active {
-      background: $daterangepicker-ranges-hover-bg-color;
+      background-color: $daterangepicker-ranges-hover-bg-color;
       border: $daterangepicker-ranges-hover-border-size solid $daterangepicker-ranges-hover-border-color;
       color: $daterangepicker-ranges-hover-color;
     }
